@@ -48,13 +48,13 @@ public class Main {
         double[] result6 = cg2.minimize();
         System.out.println("Метод сопряженных градиентов для функции Химмельблау: " + result6[0] + "   " + result6[1]);
 
-        BFGS qn1 = new BFGS(biF1, new Point(1, 0), 1e-6, 10);
+        BFGS qn1 = new BFGS(biF1, new Point(20, 10), 1e-2, 100);
         double[] result7 = qn1.minimize();
-        System.out.println("Квазиньютоновский метод: " + result7[0] + "   " + result7[1]);
+        System.out.println("Квазиньютоновский метод для функции Розенброка: " + result7[0] + "   " + result7[1]);
 
-        BFGS qn2 = new BFGS(biF2, new Point(3, 3), 1e-6, 10);
+        BFGS qn2 = new BFGS(biF2, new Point(-5, 0), 1e-5, 100);
         double[] result8 = qn2.minimize();
-        System.out.println("Квазиньютоновский метод: " + result8[0] + "   " + result8[1]);
+        System.out.println("Квазиньютоновский метод для функции Химмельблау: " + result8[0] + "   " + result8[1]);
 
 
     }

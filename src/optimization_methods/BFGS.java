@@ -33,10 +33,17 @@ public class BFGS implements BiFunctionOptimizationAlgorithm {
         int iter = 0;
         Matrix Hk = new Matrix(1, 0, 1, 0);
         Matrix I = new Matrix(1, 0, 1, 0);
+        GoldenRatio gd = new GoldenRatio();
 
         while (getGradient(f, curpoint, ARGUMENT_DELTA).getNorm() > EPSILON && iter < maxiter) {
             pk = Hk.timesPoint(getGradient(f, curpoint, ARGUMENT_DELTA)).multiply(-1); // Направление
-            Point next = getNextPoint(f, curpoint); // следующая точка
+            double alpha = gd.minimize(0.0, 1.0, 1e-05,
+                    (x) -> {
+                        Point point1 = curpoint.sum(pk.multiply(x));
+                        return f.apply(point1.getX(), point1.getY());
+                    });
+            Point next = new Point(curpoint.sum(pk.multiply(alpha)));
+
 
             // Разность между следующим и предыдущим приближениями
             Point sk = new Point(next.subtraction(curpoint));
@@ -44,11 +51,9 @@ public class BFGS implements BiFunctionOptimizationAlgorithm {
             Point yk = new Point(getGradient(f, next, ARGUMENT_DELTA)).subtraction(getGradient(f, curpoint, ARGUMENT_DELTA));
 
             double ro = 1.0 / yk.skal(sk);
+
             Matrix temp1 = (I.minus(sk.columnTimesRow(yk).multiplyByNumber(ro)));
             Matrix temp2 = (I.minus(yk.columnTimesRow(sk).multiplyByNumber(ro)));
-//            temp1.show();
-//            System.out.println();
-//            temp2.show();
             Hk = temp1.times(Hk).times(temp2).sum(sk.columnTimesRow(sk).multiplyByNumber(ro));
             curpoint = next;
 //            System.out.println("current point is");
@@ -57,53 +62,11 @@ public class BFGS implements BiFunctionOptimizationAlgorithm {
         return new double[] {curpoint.getX(), curpoint.getY()};
     }
 
-    private Point getNextPoint(BiFunction<Double, Double, Double> f, Point point) {
+//    private Point getNextPoint(BiFunction<Double, Double, Double> f, Point point) {
 //        setAlpha(1.0); // Изначально пробуем длину шага alpha = 1;
-        GoldenRatio gd = new GoldenRatio();
-        while(!wolfeConditions(f, point)) {
 
-        }
-        Point nextpoint = new Point(point.sum(getGradient(f, point, ARGUMENT_DELTA).multiply(alpha)));
 //        System.out.println(wolfeConditions(f, point));
-        return nextpoint;
-    }
-
-
-    private boolean wolfeConditions(BiFunction<Double, Double, Double> f, Point point) {
-        /**
-         *  Запускаем рандомизацию для alpha, чтобы найти такую длину шага, которая
-         *  будет удовлетворять условиям Wolfe.
-         */
-        System.out.println("alpha is " + alpha);
-        Point nextpoint = new Point(point.sum(pk.multiply(alpha))); // следующая точка (с учетом текущего шага)
-        double matrixpoint = getGradient(f, point, ARGUMENT_DELTA).skal(pk);
-
-        /**
-         * matrixpoint - результат перемножения матриц размерностей (1, 3)x(3, 1) к примеру.
-         * Задаем левую и правую части первого условия Wolfe
-         */
-        double firstcondleft = f.apply(nextpoint.getX(), nextpoint.getY());
-        double firstcondright = f.apply(point.getX(), point.getY()) + DELTA_ONE * alpha * matrixpoint;
-        /**
-         * Далее задаем левую и правую части второго условия Wolfe
-         */
-        double secondcondleft = (getGradient(f, nextpoint, ARGUMENT_DELTA).skal(pk));
-        double secondcondright = DELTA_TWO * matrixpoint;
-        /**
-         * Описываем сами условия
-         */
-        System.out.println("FIRST CONDITION: ");
-        System.out.println(firstcondleft + "   " + firstcondright);
-        boolean firstcond = firstcondleft <= firstcondright;
-        boolean secondcond = secondcondleft >= secondcondright;
-        System.out.println("SECOND CONDITION: ");
-        System.out.println(secondcondleft + "   " + secondcondright);
-        System.out.println(firstcond + "   " + secondcond);
-        return firstcond && secondcond;
-    }
-
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
+//        return nextpoint;
+//    }
 
 }
