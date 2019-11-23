@@ -49,10 +49,6 @@ public class Point {
         return Math.sqrt((x * x) + (y * y));
     }
 
-    public double dotMultiply(Point a) {
-        return new Point(this.getX() * a.getX(), this.getY() * a.getY()).getNorm();
-    }
-
     public Matrix pointMultiply(Point a) {
         return new Matrix(this.x * a.getX(), this.y * a.getX(), this.x * a.getY(), this.y * a.getY());
     }

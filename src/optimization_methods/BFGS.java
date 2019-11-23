@@ -56,17 +56,10 @@ public class BFGS implements BiFunctionOptimizationAlgorithm {
             Matrix temp2 = (I.minus(yk.columnTimesRow(sk).multiplyByNumber(ro)));
             Hk = temp1.times(Hk).times(temp2).sum(sk.columnTimesRow(sk).multiplyByNumber(ro));
             curpoint = next;
-//            System.out.println("current point is");
-//            System.out.println(curpoint.getX() + "   " + curpoint.getY());
+            System.out.println("current point is");
+            System.out.println(curpoint.getX() + "   " + curpoint.getY());
         }
         return new double[] {curpoint.getX(), curpoint.getY()};
     }
-
-//    private Point getNextPoint(BiFunction<Double, Double, Double> f, Point point) {
-//        setAlpha(1.0); // Изначально пробуем длину шага alpha = 1;
-
-//        System.out.println(wolfeConditions(f, point));
-//        return nextpoint;
-//    }
 
 }
