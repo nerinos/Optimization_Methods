@@ -3,7 +3,7 @@ package optimization_methods;
 import java.util.function.DoubleFunction;
 
 public class GoldenRatio implements OptimizationAlgorithm{
-    final double PHI = (1 + Math.sqrt(5)) / 2;
+    private final double PHI = (1 + Math.sqrt(5)) / 2;
     public GoldenRatio() {
     }
 

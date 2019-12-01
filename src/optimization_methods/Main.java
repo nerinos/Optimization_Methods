@@ -47,11 +47,11 @@ public class Main {
         double[] result6 = cg2.minimize();
         System.out.println("Метод сопряженных градиентов для функции Химмельблау: " + result6[0] + "   " + result6[1]);
 
-        BFGS qn1 = new BFGS(rosenbrock, new Point(20, 10), 1e-5, 100);
+        BFGS qn1 = new BFGS(rosenbrock, new Point(34, 34), 1e-6);
         double[] result7 = qn1.minimize();
         System.out.println("Квазиньютоновский метод для функции Розенброка: " + result7[0] + "   " + result7[1]);
 
-        BFGS qn2 = new BFGS(himmelblau, new Point(-5, 0), 1e-5, 100);
+        BFGS qn2 = new BFGS(himmelblau, new Point(-20, -100), 1e-6);
         double[] result8 = qn2.minimize();
         System.out.println("Квазиньютоновский метод для функции Химмельблау: " + result8[0] + "   " + result8[1]);
 

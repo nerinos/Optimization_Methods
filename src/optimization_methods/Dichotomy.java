@@ -18,7 +18,7 @@ public class Dichotomy implements OptimizationAlgorithm {
             else {
                 a = mid;
             }
-            if (Math.abs(b - a) <    epsilon)
+            if (Math.abs(b - a) < epsilon)
                 return (a + b) / 2;
         }
     }
